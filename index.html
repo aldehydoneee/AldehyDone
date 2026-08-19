@@ -29,9 +29,10 @@
   <!-- Header -->
   <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-green-100 shadow-sm">
     <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md border-2 border-white">
-          <i class="fa-solid fa-circle-check"></i>
+      <div class="flex items-center space-x-3">
+        <!-- 公司頭像 Logo -->
+        <div class="w-10 h-10 rounded-full overflow-hidden shadow-md border-2 border-green-400 bg-white flex-shrink-0">
+          <img src="logo.png" alt="醛部搞掂 Logo" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/aldehydoneee/AldehyDone/main/logo.png';">
         </div>
         <div>
           <h1 class="font-extrabold text-lg leading-tight text-slate-900">醛部搞掂</h1>
@@ -51,12 +52,9 @@
     <div class="bg-white rounded-2xl shadow-xl border border-green-100 p-6 mb-6 text-center relative overflow-hidden">
       <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-100 rounded-full blur-xl opacity-70"></div>
       
-      <!-- Brand Logo / Mascot Visual -->
-      <div class="w-20 h-20 mx-auto mb-3 bg-emerald-100 rounded-2xl flex items-center justify-center border-2 border-emerald-300 shadow-inner relative">
-        <i class="fa-solid fa-shield-virus text-4xl text-emerald-600"></i>
-        <div class="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full text-xs">
-          <i class="fa-solid fa-check"></i>
-        </div>
+      <!-- Brand Mascot / Large Logo Display -->
+      <div class="w-24 h-24 mx-auto mb-3 rounded-2xl overflow-hidden border-2 border-emerald-200 shadow-md bg-emerald-50 p-1 relative">
+        <img src="logo.png" alt="醛部搞掂 團隊形象" class="w-full h-full object-cover rounded-xl" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/aldehydoneee/AldehyDone/main/logo.png';">
       </div>
 
       <h2 class="text-2xl font-black text-slate-900 mb-1">5秒即時免費報價</h2>
@@ -179,7 +177,7 @@
   </main>
 
   <script>
-    // 定義電話號碼（請替換為你們團隊實際的香港電話，格式：852XXXXXXXX）
+    // 已填入你的正確電話
     const whatsappPhone = "85262955562"; 
 
     function setQuickArea(area) {
@@ -197,37 +195,33 @@
         return;
       }
 
-      const promoRate = 5; // 今年優惠單價 $5
-      const originalRate = 6; // 明年原價 $6
+      const promoRate = 5; 
+      const originalRate = 6; 
 
-      // 直接依據實用面積計算（無最低消費限制）
       const calculatedPrice = area * promoRate;
       const originalPrice = area * originalRate;
       const savings = originalPrice - calculatedPrice;
 
-      // 更新結果顯示
-      document.getElementById('priceDisplay').innerText = HK$${calculatedPrice.toLocaleString()};
+      document.getElementById('priceDisplay').innerText = `HK$${calculatedPrice.toLocaleString()}`;
       
       const savingsBox = document.getElementById('savingsDisplay');
       if (savings > 0) {
-        savingsBox.innerText = 🔥 相比明年原價 ($6/呎)，現省 HK$${savings.toLocaleString()}！;
+        savingsBox.innerText = `🔥 相比明年原價 ($6/呎)，現省 HK$${savings.toLocaleString()}！`;
       } else {
         savingsBox.innerText = ``;
       }
 
-      // 生成帶有預設文字的 WhatsApp 連結
-      let message = 你好！我透過網站進行了自動報價，想預約/查詢【醛部搞掂】除甲醛服務：\n\n;
-      message += 📐 單位實用面積：${area} 平方呎\n;
-      message += 💰 限時優惠估價：HK$${calculatedPrice.toLocaleString()}\n;
-      message += 🎁 包含福利：免 $700 全屋檢測費 + 30天覆測保養\n\n;
-      message += 請幫我安排/確認最新施工檔期，謝謝！;
+      let message = `你好！我透過網站進行了自動報價，想預約/查詢【醛部搞掂】除甲醛服務：\n\n`;
+      message += `📐 單位實用面積：${area} 平方呎\n`;
+      message += `💰 限時優惠估價：HK$${calculatedPrice.toLocaleString()}\n`;
+      message += `🎁 包含福利：免 $700 全屋檢測費 + 30天覆測保養\n\n`;
+      message += `請幫我安排/確認最新施工檔期，謝謝！`;
 
       const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = https://wa.me/${whatsappPhone}?text=${encodedMessage};
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
 
       document.getElementById('whatsappBtn').href = whatsappUrl;
 
-      // 顯示結果區塊並平滑滾動
       const resultBox = document.getElementById('resultBox');
       resultBox.classList.remove('hidden');
       resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
