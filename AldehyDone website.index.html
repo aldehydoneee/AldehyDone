@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>醛部搞掂 AldehyDone | 5秒即時自動報價</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#22c55e',
+              darkgreen: '#15803d',
+              light: '#f0fdf4',
+              accent: '#16a34a',
+              navy: '#1e293b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-b from-green-50 to-slate-100 min-h-screen text-slate-800 font-sans pb-12">
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-green-100 shadow-sm">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md border-2 border-white">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg leading-tight text-slate-900">醛部搞掂</h1>
+          <p class="text-xs text-green-600 font-semibold tracking-wider">ALDEHYDONE</p>
+        </div>
+      </div>
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 animate-pulse">
+        🔥 本年限時 $5/呎
+      </span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-md mx-auto px-4 pt-6">
+
+    <!-- Hero Card -->
+    <div class="bg-white rounded-2xl shadow-xl border border-green-100 p-6 mb-6 text-center relative overflow-hidden">
+      <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-100 rounded-full blur-xl opacity-70"></div>
+      
+      <!-- Brand Logo / Mascot Visual -->
+      <div class="w-20 h-20 mx-auto mb-3 bg-emerald-100 rounded-2xl flex items-center justify-center border-2 border-emerald-300 shadow-inner relative">
+        <i class="fa-solid fa-shield-virus text-4xl text-emerald-600"></i>
+        <div class="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full text-xs">
+          <i class="fa-solid fa-check"></i>
+        </div>
+      </div>
+
+      <h2 class="text-2xl font-black text-slate-900 mb-1">5秒即時免費報價</h2>
+      <p class="text-sm text-slate-600 mb-4">輸入實用面積，即時計算專屬優惠！</p>
+
+      <!-- Year Discount Alert Box -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-3 text-left mb-6 flex items-start space-x-3">
+        <div class="text-amber-500 text-lg mt-0.5"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="text-xs text-amber-900">
+          <span class="font-bold block text-sm text-amber-950 mb-0.5">今年限時特別優惠價：</span>
+          即日起全屋除甲醛只需 <span class="font-extrabold text-red-600 text-sm">$5/實用呎</span>（原價 $6/呎將於下年度恢復）。按實測面積計算！
+        </div>
+      </div>
+
+      <!-- Calculator Form -->
+      <div class="space-y-4 text-left">
+        <div>
+          <label for="areaInput" class="block text-sm font-bold text-slate-700 mb-1">
+            <i class="fa-solid fa-ruler-combined text-green-600 mr-1.5"></i>單位實用面積（平方呎 sq ft）
+          </label>
+          <div class="relative rounded-xl shadow-sm">
+            <input type="number" id="areaInput" min="1" max="10000" placeholder="例如：450" 
+              class="w-full text-lg font-bold pl-4 pr-16 py-3.5 border-2 border-slate-200 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none text-slate-800">
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 font-semibold">
+              呎 (sq ft)
+            </div>
+          </div>
+          <div class="flex justify-between items-center mt-1.5 px-1">
+            <p class="text-xs text-slate-400">* 做工程即免 $700 檢測費</p>
+            <span id="quickSelect" class="text-xs text-green-600 font-medium cursor-pointer hover:underline" onclick="setQuickArea(500)">常用 500呎</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="calculateQuote()" 
+          class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all transform active:scale-95 flex items-center justify-center space-x-2 text-base">
+          <i class="fa-solid fa-calculator"></i>
+          <span>即時計算最新優惠價</span>
+        </button>
+      </div>
+
+      <!-- Result Card (Hidden Initially) -->
+      <div id="resultBox" class="hidden mt-6 pt-6 border-t border-slate-100 text-left animate-fade-in">
+        <div class="bg-slate-900 text-white rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-green-500/20 rounded-full blur-2xl"></div>
+          
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-green-400">專屬報價結果</span>
+              <h3 class="text-lg font-bold text-white">全屋除甲醛淨化工程</h3>
+            </div>
+            <span class="bg-green-500/20 text-green-300 text-xs px-2.5 py-1 rounded-full font-medium border border-green-500/30">
+              免 $700 檢測費
+            </span>
+          </div>
+
+          <div class="my-4 pb-4 border-b border-slate-800">
+            <div class="flex items-baseline space-x-2">
+              <span class="text-xs text-slate-400">限時優惠總價：</span>
+              <span id="priceDisplay" class="text-3xl font-black text-green-400">HK$0</span>
+            </div>
+            <div id="savingsDisplay" class="text-xs text-amber-400 mt-1 font-medium"></div>
+          </div>
+
+          <ul class="text-xs space-y-2 text-slate-300 mb-5">
+            <li class="flex items-center"><i class="fa-solid fa-check text-green-400 mr-2"></i>施工前全屋甲醛指數專業檢測（$0 贈送）</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-green-400 mr-2"></i>日本認證無毒藥劑全屋噴塗（母嬰寵物友善）</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-green-400 mr-2"></i>施工後即時現場複測 + 數據報告</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-green-400 mr-2"></i>30 天免費覆測跟進保養承諾</li>
+          </ul>
+
+          <!-- Action Button -->
+          <a id="whatsappBtn" href="#" target="_blank"
+            class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-black py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>一鍵 WhatsApp 預約 / 諮詢</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service Highlights -->
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 mb-6 space-y-4">
+      <h3 class="font-extrabold text-slate-900 text-center text-base border-b border-slate-100 pb-2">
+        【醛部搞掂】4 大核心承諾
+      </h3>
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="text-green-600 font-bold mb-1 flex items-center">
+            <i class="fa-solid fa-file-invoice-dollar mr-1"></i> 明碼實價
+          </div>
+          <p class="text-slate-500">完全按實用面積計算，零隱藏費用。</p>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="text-green-600 font-bold mb-1 flex items-center">
+            <i class="fa-solid fa-hand-holding-medical mr-1"></i> 檢測全免
+          </div>
+          <p class="text-slate-500">凡做除甲醛，即免 $700 檢測費。</p>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="text-green-600 font-bold mb-1 flex items-center">
+            <i class="fa-solid fa-paw mr-1"></i> 母嬰寵物友善
+          </div>
+          <p class="text-slate-500">日本進口無毒藥劑，即日安心入住。</p>
+        </div>
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="text-green-600 font-bold mb-1 flex items-center">
+            <i class="fa-solid fa-user-shield mr-1"></i> 職人親做
+          </div>
+          <p class="text-slate-500">3人團隊落手落腳，品質絕對保證。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact & Footer -->
+    <div class="text-center text-xs text-slate-400 space-y-2">
+      <p class="font-medium text-slate-500">交畀我哋，醛部搞掂！ (Consider it Done)</p>
+      <p>© 2026 醛部搞掂 AldehyDone. All rights reserved.</p>
+    </div>
+
+  </main>
+
+  <script>
+    // 定義電話號碼（請替換為你們團隊實際的香港電話，格式：852XXXXXXXX）
+    const whatsappPhone = "85262955562"; 
+
+    function setQuickArea(area) {
+      document.getElementById('areaInput').value = area;
+      calculateQuote();
+    }
+
+    function calculateQuote() {
+      const areaInput = document.getElementById('areaInput');
+      const area = parseFloat(areaInput.value);
+
+      if (isNaN(area) || area <= 0) {
+        alert("請輸入有效的實用面積（平方呎）");
+        areaInput.focus();
+        return;
+      }
+
+      const promoRate = 5; // 今年優惠單價 $5
+      const originalRate = 6; // 明年原價 $6
+
+      // 直接依據實用面積計算（無最低消費限制）
+      const calculatedPrice = area * promoRate;
+      const originalPrice = area * originalRate;
+      const savings = originalPrice - calculatedPrice;
+
+      // 更新結果顯示
+      document.getElementById('priceDisplay').innerText = HK$${calculatedPrice.toLocaleString()};
+      
+      const savingsBox = document.getElementById('savingsDisplay');
+      if (savings > 0) {
+        savingsBox.innerText = 🔥 相比明年原價 ($6/呎)，現省 HK$${savings.toLocaleString()}！;
+      } else {
+        savingsBox.innerText = ``;
+      }
+
+      // 生成帶有預設文字的 WhatsApp 連結
+      let message = 你好！我透過網站進行了自動報價，想預約/查詢【醛部搞掂】除甲醛服務：\n\n;
+      message += 📐 單位實用面積：${area} 平方呎\n;
+      message += 💰 限時優惠估價：HK$${calculatedPrice.toLocaleString()}\n;
+      message += 🎁 包含福利：免 $700 全屋檢測費 + 30天覆測保養\n\n;
+      message += 請幫我安排/確認最新施工檔期，謝謝！;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = https://wa.me/${whatsappPhone}?text=${encodedMessage};
+
+      document.getElementById('whatsappBtn').href = whatsappUrl;
+
+      // 顯示結果區塊並平滑滾動
+      const resultBox = document.getElementById('resultBox');
+      resultBox.classList.remove('hidden');
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>
